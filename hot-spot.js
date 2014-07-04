@@ -2,10 +2,10 @@
  * Created by Shaun on 6/21/14.
  */
 
-jack2d('hotSpot', ['helper', 'doc', 'input'], function(helper, doc, input) {
+jack2d('hotSpot', ['obj', 'doc', 'input'], function(obj, doc, input) {
   'use strict';
 
-  return helper.mixin([input], {
+  return obj.mixin([input], {
     targetElement: function(selector) {
       doc.getElement(selector).then(function(element) {
         input.setControlScheme({tap: {element: element}});
