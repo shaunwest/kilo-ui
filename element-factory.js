@@ -5,8 +5,8 @@
 jack2d('elementFactory', ['obj', 'element'], function(obj, element) {
   'use strict';
 
-  return function(elementOrSelector) {
-    var newElement = obj.create(element);
+  return function(elementOrSelector, dataObject) {
+    var newElement = (dataObject) ? obj.mixin(element, dataObject) : obj.create(element);
     return (elementOrSelector) ?
       newElement.el(elementOrSelector) :
       newElement;

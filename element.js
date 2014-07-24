@@ -29,6 +29,30 @@ jack2d('element', ['helper', 'doc', 'proxy', 'input'], function(helper, doc, pro
       this.element.style[prop] = value;
       return this;
     }),
+    updateElement: function() {
+      var prop;
+      if(!this.element) {
+        return;
+      }
+      for(prop in this) {
+        if(this.hasOwnProperty(prop)) {
+          switch(prop) {
+            case 'x':
+              this.element.style.left = this.x + 'px';
+              break;
+            case 'y':
+              this.element.style.top = this.y + 'px';
+              break;
+            case 'width':
+              this.element.style.width = this.width + 'px';
+              break;
+            case 'height':
+              this.element.style.height = this.height + 'px';
+              break;
+          }
+        }
+      }
+    },
     onInteract: proxy.defer(function(callback) {
       var element = this.element,
         contextCallback = callback.bind(this);
