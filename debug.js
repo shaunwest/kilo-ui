@@ -2,11 +2,11 @@
  * Created by Shaun on 6/17/14.
  */
 
-jack2d('debug', ['helper', 'obj', 'proxy', 'chronoObject', 'element'],
-function(helper, obj, proxy, chronoObject, element){
+jack2d('debug', ['helper', 'obj', 'proxy', 'chronoObject', 'Element'],
+function(helper, obj, proxy, chronoObject, Element){
   'use strict';
 
-  return obj.mixin([chronoObject, element], proxy.defer({
+  return obj.mixin([chronoObject, Element, proxy.defer({
     print: function(id, message) {
       var contentList = (this.contentList) ? this.contentList : this.contentList = {};
       if(!contentList.hasOwnProperty(id)) {
@@ -23,5 +23,5 @@ function(helper, obj, proxy, chronoObject, element){
       });
       return this;
     }
-  }));
+  })]);
 });

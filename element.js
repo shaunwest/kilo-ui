@@ -3,7 +3,7 @@
  */
 
 
-jack2d('element', ['helper', 'doc', 'proxy', 'input'], function(helper, doc, proxy, input) {
+jack2d('Element', ['helper', 'doc', 'proxy', 'input'], function(helper, doc, proxy, input) {
   'use strict';
 
   return {

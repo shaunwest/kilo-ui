@@ -2,12 +2,12 @@
  * Created by Shaun on 5/24/14.
  */
 
-jack2d('canvas', ['obj', 'element', 'proxy'], function(obj, element, proxy) {
+jack2d('canvas', ['obj', 'Element', 'proxy'], function(obj, Element, proxy) {
   'use strict';
 
   var CHECKER_COLOR = 'rgba(184,184,184,0.5)'; // grey
 
-  return obj.mixin(element, proxy.defer({
+  return obj.mixin([Element, proxy.defer({
     checkerBackground: function(checkerSize) {
       var canvas = this.element,
         width = canvas.width,
@@ -31,5 +31,5 @@ jack2d('canvas', ['obj', 'element', 'proxy'], function(obj, element, proxy) {
       }
       return this;
     }
-  }));
+  })]);
 });
