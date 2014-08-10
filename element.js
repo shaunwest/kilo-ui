@@ -64,8 +64,9 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy', 'input'], function(Helper, O
 
       this.onFrame(function() {
         var inputs = Input.getInputs();
+
         if(inputs.interact && inputs.interact.target === element) {
-          contextOnInput(inputs.interact); //, false);
+          contextOnInput(inputs.interact);
           this.interacted = true;
         } else if(contextOnInputEnd && this.interacted) {
           contextOnInputEnd(inputs.interact);
@@ -74,19 +75,7 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy', 'input'], function(Helper, O
       });
 
       return this;
-    })/*,
-    onInteractEnd: Proxy.defer(function(callback) {
-      var element = this.element,
-        contextCallback = callback.bind(this);
-
-      this.onFrame(function() {
-        var inputs = Input.getInputsEnded();
-        if(inputs.interact && inputs.interact.target === element) {
-          contextCallback(inputs.interact);
-        }
-      });
-      return this;
-    })*/
+    })
   }]);
 });
 
