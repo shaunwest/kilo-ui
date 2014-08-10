@@ -5,7 +5,7 @@
 jack2d('LiveElement', ['obj', 'chronoObject', 'Element'], function(obj, chronoObject, Element) {
   'use strict';
 
-  return obj.extend([Element, chronoObject, {
+  return obj.extend([Element, {
     el: function(el, elementOrSelector) {
       this.onFrame(this.updateElement);
       return el.call(this, elementOrSelector);

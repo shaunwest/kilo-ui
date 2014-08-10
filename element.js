@@ -3,21 +3,21 @@
  */
 
 
-jack2d('Element', ['helper', 'doc', 'proxy', 'input'], function(helper, doc, proxy, input) {
+jack2d('Element', ['helper', 'obj', 'doc', 'proxy', 'input'], function(Helper, Obj, Doc, Proxy, Input) {
   'use strict';
 
-  return {
+  return Obj.mixin(['chronoObject', {
     el: function(elementOrSelector) {
-      var promise = doc.getElement(elementOrSelector);
+      var promise = Doc.getElement(elementOrSelector);
 
-      if(helper.isString(elementOrSelector)) {
+      if(Helper.isString(elementOrSelector)) {
         this.elementSelector = elementOrSelector;
       }
 
       promise.then(
         function(element) {
           this.element = element;
-          proxy.executeDeferred(this);
+          Proxy.executeDeferred(this);
         }.bind(this),
         function(error) {
           console.log(error);
@@ -25,7 +25,7 @@ jack2d('Element', ['helper', 'doc', 'proxy', 'input'], function(helper, doc, pro
 
       return this;
     },
-    setStyle: proxy.defer(function(prop, value) {
+    setStyle: Proxy.defer(function(prop, value) {
       this.element.style[prop] = value;
       return this;
     }),
@@ -53,28 +53,40 @@ jack2d('Element', ['helper', 'doc', 'proxy', 'input'], function(helper, doc, pro
         }
       }
     },
-    onInteract: proxy.defer(function(callback) {
-      var element = this.element,
-        contextCallback = callback.bind(this);
+    onInteract: Proxy.defer(function(onInput, onInputEnd) {
+      var element, contextOnInput, contextOnInputEnd;
 
-      input.onInputUpdate(function(inputs, ended) {
+      element = this.element;
+      contextOnInput = (onInput) ?
+        onInput.bind(this) :
+        Helper.error('Jack2d: Element::onInteract requires at least one callback.');
+      contextOnInputEnd = (onInputEnd) ? onInputEnd.bind(this) : null;
+
+      this.onFrame(function() {
+        var inputs = Input.getInputs();
         if(inputs.interact && inputs.interact.target === element) {
-          contextCallback(inputs.interact, false);
+          contextOnInput(inputs.interact); //, false);
+          this.interacted = true;
+        } else if(contextOnInputEnd && this.interacted) {
+          contextOnInputEnd(inputs.interact);
+          this.interacted = false;
         }
       });
+
       return this;
-    }),
-    onInteractEnd: proxy.defer(function(callback) {
+    })/*,
+    onInteractEnd: Proxy.defer(function(callback) {
       var element = this.element,
         contextCallback = callback.bind(this);
 
-      input.onInputUpdateEnd(function(input) {
-        if(input.interact && input.interact.target === element) {
-          contextCallback(input.interact);
+      this.onFrame(function() {
+        var inputs = Input.getInputsEnded();
+        if(inputs.interact && inputs.interact.target === element) {
+          contextCallback(inputs.interact);
         }
       });
       return this;
-    })
-  };
+    })*/
+  }]);
 });
 
