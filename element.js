@@ -8,22 +8,25 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy', 'input'], function(Helper, O
 
   return Obj.mixin(['chronoObject', {
     el: function(elementOrSelector) {
+      this.elPromise(elementOrSelector);
+      return this;
+    },
+    elPromise: function(elementOrSelector) {
       var promise = Doc.getElement(elementOrSelector);
 
       if(Helper.isString(elementOrSelector)) {
         this.elementSelector = elementOrSelector;
       }
 
-      promise.then(
+      return promise.then(
         function(element) {
           this.element = element;
-          Proxy.executeDeferred(this);
+          //Proxy.executeDeferred(this);
+          return element;
         }.bind(this),
         function(error) {
           console.log(error);
         });
-
-      return this;
     },
     setStyle: Proxy.defer(function(prop, value) {
       this.element.style[prop] = value;
