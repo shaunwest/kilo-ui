@@ -7,7 +7,7 @@ jack2d('canvas', ['obj', 'Element', 'proxy2'], function(obj, Element, proxy) {
 
   var CHECKER_COLOR = 'rgba(184,184,184,0.5)'; // grey
 
-  return obj.mixin([Element, proxy.defer({
+  return obj.mixin([Element, {
     checkerBackground: function(checkerSize) {
       var canvas = this.element,
         width = canvas.width,
@@ -31,5 +31,5 @@ jack2d('canvas', ['obj', 'Element', 'proxy2'], function(obj, Element, proxy) {
       }
       return this;
     }
-  })]);
+  }]);
 });
