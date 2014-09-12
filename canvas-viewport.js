@@ -9,7 +9,7 @@ jack2d('CanvasViewport', ['helper', 'obj'], function(Helper, Obj) {
     elPromise: function(elPromise, elementOrSelector) { // TODO: re-work this elPromise stuff
       this.onFrame(function() {
         this.draw();
-      });
+      }, 'canvas-viewport');
       return elPromise.call(this, elementOrSelector);
     },
     addLayer: function(addLayer, layer) {
