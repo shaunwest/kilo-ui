@@ -2,7 +2,7 @@
  * Created by Shaun on 5/24/14.
  */
 
-jack2d('canvas', ['obj', 'Element', 'proxy2'], function(obj, Element, proxy) {
+jack2d('canvas', ['obj', 'Element'], function(obj, Element) {
   'use strict';
 
   var CHECKER_COLOR = 'rgba(184,184,184,0.5)'; // grey

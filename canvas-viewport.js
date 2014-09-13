@@ -6,11 +6,11 @@ jack2d('CanvasViewport', ['helper', 'obj'], function(Helper, Obj) {
   'use strict';
 
   return Obj.mixin(['Viewport', 'canvas', {
-    elPromise: function(elPromise, elementOrSelector) { // TODO: re-work this elPromise stuff
+    el: function(el, elementOrSelector) {
       this.onFrame(function() {
         this.draw();
       }, 'canvas-viewport');
-      return elPromise.call(this, elementOrSelector);
+      return el.call(this, elementOrSelector);
     },
     addLayer: function(addLayer, layer) {
       addLayer.call(this, layer);

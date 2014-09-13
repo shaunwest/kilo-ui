@@ -8,10 +8,6 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy2', 'input'], function(Helper, 
 
   return Obj.mixin(['chronoObject', {
     el: function(elementOrSelector) {
-      this.elPromise(elementOrSelector);
-      return this;
-    },
-    elPromise: function(elementOrSelector) {
       var promise = Doc.getElement(elementOrSelector);
 
       if(Helper.isString(elementOrSelector)) {
@@ -21,17 +17,16 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy2', 'input'], function(Helper, 
       return promise.then(
         function(element) {
           this.element = element;
-          //Proxy.executeDeferred(this);
           return element;
         }.bind(this),
         function(error) {
           console.log(error);
         });
     },
-    setStyle: Proxy.defer(function(prop, value) {
+    setStyle: function(prop, value) {
       this.element.style[prop] = value;
       return this;
-    }),
+    },
     updateElement: function() {
       var prop;
       if(!this.element) {
@@ -56,7 +51,7 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy2', 'input'], function(Helper, 
         }
       }
     },
-    onInteract: Proxy.defer(function(onInput, onInputEnd) {
+    onInteract: function(onInput, onInputEnd) {
       var element, contextOnInput, contextOnInputEnd;
 
       element = this.element;
@@ -78,7 +73,7 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy2', 'input'], function(Helper, 
       });
 
       return this;
-    })
+    }
   }]);
 });
 
