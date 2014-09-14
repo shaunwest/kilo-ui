@@ -9,7 +9,7 @@ jack2d('CanvasViewport', ['helper', 'obj'], function(Helper, Obj) {
     el: function(el, elementOrSelector) {
       this.onFrame(function() {
         this.draw();
-      }, 'canvas-viewport');
+      }, Helper.getGID('canvas-viewport'));
       return el.call(this, elementOrSelector);
     },
     addLayer: function(addLayer, layer) {
