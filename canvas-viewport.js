@@ -41,11 +41,14 @@ jack2d('CanvasViewport', ['helper', 'obj'], function(Helper, Obj) {
       layers = this.layers;
       context = this.element.getContext('2d');
       var that = this;
-      function drawLayer(layer) {
-        if(layer.visible) {
-          layer.layer.draw();
+      function drawLayer(layerData) {
+        if(layerData.visible) {
+          layerData.layer.draw();
           that.clear();
-          context.drawImage(layer.layer.getLayer(), 0, 0);
+          var layer = layerData.layer.getLayer();
+          if(layer) {
+            context.drawImage(layer, 0, 0);
+          }
         }
       }
 

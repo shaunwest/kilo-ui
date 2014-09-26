@@ -5,7 +5,6 @@
 jack2d('doc', ['helper'], function(helper) {
   'use strict';
 
-  // TODO: See about using deferred instead of promise
   function getElement(elementOrSelector) {
     return new Promise(function(resolve, reject) {
       if(!helper.isString(elementOrSelector)) {
