@@ -2,8 +2,32 @@
  * Created by Shaun on 8/29/14.
  */
 
-jack2d('CanvasViewport', ['helper', 'obj'], function(Helper, Obj) {
+jack2d('CanvasViewport', ['helper', 'obj', 'Requires'], function(Helper, Obj, Requires) {
   'use strict';
+
+  function clearContext(context, width, height) {
+    context.clearRect(0, 0, width, height);
+  }
+
+  function drawBackground(context, width, height, color) {
+    context.fillStyle = color || 'red';
+    context.fillRect(0, 0, width, height);
+  }
+
+  function drawBorder(context, width, height) {
+    context.beginPath();
+    context.rect(0, 0, width, height);
+    context.stroke();
+    context.closePath();
+  }
+
+  function drawLayer(canvas, layerData, viewDimensions) {
+    var context = canvas.getContext('2d');
+
+    if(layerData.visible) {
+      layerData.layer.draw(context, viewDimensions);
+    }
+  }
 
   return Obj.mixin(['Viewport', 'canvas', {
     el: function(el, elementOrSelector) {
@@ -12,68 +36,46 @@ jack2d('CanvasViewport', ['helper', 'obj'], function(Helper, Obj) {
       }, Helper.getGID('canvas-viewport'));
       return el.call(this, elementOrSelector);
     },
-    addLayer: function(addLayer, layer) {
-      addLayer.call(this, layer);
-      this.setCanvasSize();
+    clear: function(width, height) {
+      var canvas = this.element,
+        dims;
+
+      if(canvas) {
+        dims = this.viewDimensions;
+        clearContext(canvas.getContext('2d'), width || dims.width, height || dims.height);
+      }
       return this;
     },
-    setCanvasSize: function() {
-      this.element.width = this.contentWidth;
-      this.element.height = this.contentHeight;
+    drawBorder: function(width, height) {
+      var dims = this.viewDimensions;
+      drawBorder(this.element.getContext('2d'), width || dims.width, height || dims.height);
       return this;
     },
-    clear: function() {
-      var element = this.element;
-
-      element.
-        getContext('2d').
-        clearRect(0, 0, element.width, element.height);
-
+    drawBackground: function(width, height, color) {
+      var dims = this.viewDimensions;
+      drawBackground(this.element.getContext('2d'), width || dims.width, height || dims.height, color);
       return this;
     },
-    draw: function(layerIndex) {
-      var layers, context;
-
-      if(!this.element || !this.layers) {
-        return this;
-      }
-
-      layers = this.layers;
-      context = this.element.getContext('2d');
-      var that = this;
-      function drawLayer(layerData) {
-        if(layerData.visible) {
-          layerData.layer.draw();
-          that.clear();
-          var layer = layerData.layer.getLayer();
-          if(layer) {
-            context.drawImage(layer, 0, 0);
-          }
-        }
-      }
-
-      function drawLayers() {
-        var numLayers = layers.length, i;
-        for(i = 0; i < numLayers; i++) {
-          drawLayer(layers[i]);
-        }
-      }
-
-      if(Helper.isNumber(layerIndex)) {
-        drawLayer(layers[layerIndex]);
-      } else {
-        drawLayers();
-      }
-
+    drawLayer: Requires(['element', 'layers'], function(index) {
+      drawLayer(this.element, this.layers[index], this.viewDimensions);
       return this;
-    },
-    setPosition: function(setPosition, x, y) {
-      setPosition.call(this, x, y);
+    }),
+    draw: Requires(['element', 'layers'], function() {
+      var layers = this.layers;
+      var canvas = this.element;
+      var context = canvas.getContext('2d');
+      var dims = this.viewDimensions;
+      var numLayers = layers.length, i;
 
-      this.element.style.left = -x + 'px';
-      this.element.style.top = -y + 'px';
+      clearContext(context, dims.width, dims.height);
+      for(i = 0; i < numLayers; i++) {
+        drawLayer(canvas, layers[i], dims);
+      }
 
+      if(this.hasBorder) {
+        drawBorder(context, dims.width, dims.height);
+      }
       return this;
-    }
+    })
   }], true);
 });
