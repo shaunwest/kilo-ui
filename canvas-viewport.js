@@ -30,11 +30,15 @@ jack2d('CanvasViewport', ['helper', 'obj', 'Requires'], function(Helper, Obj, Re
   }
 
   return Obj.mixin(['Viewport', 'canvas', {
-    el: function(el, elementOrSelector) {
+    elPromise: function(elPromise, elementOrSelector) {
       this.onFrame(function() {
         this.draw();
-      }, Helper.getGID('canvas-viewport'));
-      return el.call(this, elementOrSelector);
+      }, 'canvas-viewport');
+      return elPromise.call(this, elementOrSelector);
+    },
+    el: function(el, elementOrSelector) {
+      this.elPromise(elementOrSelector);
+      return this;
     },
     clear: function(width, height) {
       var canvas = this.element,

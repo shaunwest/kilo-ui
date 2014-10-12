@@ -7,7 +7,7 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy2', 'input'], function(Helper, 
   'use strict';
 
   return Obj.mixin(['chronoObject', {
-    el: function(elementOrSelector) {
+    elPromise: function(elementOrSelector) {
       var promise = Doc.getElement(elementOrSelector);
 
       if(Helper.isString(elementOrSelector)) {
@@ -22,6 +22,10 @@ jack2d('Element', ['helper', 'obj', 'doc', 'proxy2', 'input'], function(Helper, 
         function(error) {
           console.log(error);
         });
+    },
+    el: function(elementOrSelector) {
+      this.elPromise(elementOrSelector);
+      return this;
     },
     setStyle: function(prop, value) {
       this.element.style[prop] = value;

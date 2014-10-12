@@ -2,13 +2,13 @@
  * Created by Shaun on 5/24/14.
  */
 
-jack2d('canvas', ['obj', 'Element'], function(obj, Element) {
+jack2d('canvas', ['obj', 'Element', 'Requires'], function(obj, Element, Requires) {
   'use strict';
 
   var CHECKER_COLOR = 'rgba(184,184,184,0.5)'; // grey
 
   return obj.mixin([Element, {
-    checkerBackground: function(checkerSize) {
+    checkerBackground: Requires(['element'], function(checkerSize) {
       var canvas = this.element,
         width = canvas.width,
         height = canvas.height,
@@ -30,6 +30,6 @@ jack2d('canvas', ['obj', 'Element'], function(obj, Element) {
         }
       }
       return this;
-    }
+    })
   }]);
 });
