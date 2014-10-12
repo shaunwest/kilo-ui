@@ -33,7 +33,7 @@ jack2d('CanvasViewport', ['helper', 'obj', 'Requires'], function(Helper, Obj, Re
     elPromise: function(elPromise, elementOrSelector) {
       this.onFrame(function() {
         this.draw();
-      }, 'canvas-viewport');
+      }, this.getType());
       return elPromise.call(this, elementOrSelector);
     },
     el: function(el, elementOrSelector) {
