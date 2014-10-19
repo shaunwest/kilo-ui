@@ -2,24 +2,9 @@
  * Created by Shaun on 8/29/14.
  */
 
-jack2d('CanvasViewport', ['helper', 'obj', 'Requires'], function(Helper, Obj, Requires) {
+jack2d('CanvasViewport', ['helper', 'obj', 'rect', 'Canvas', 'Requires'],
+function(Helper, Obj, Rect, Canvas, Requires) {
   'use strict';
-
-  function clearContext(context, width, height) {
-    context.clearRect(0, 0, width, height);
-  }
-
-  function drawBackground(context, width, height, color) {
-    context.fillStyle = color || 'red';
-    context.fillRect(0, 0, width, height);
-  }
-
-  function drawBorder(context, width, height) {
-    context.beginPath();
-    context.rect(0, 0, width, height);
-    context.stroke();
-    context.closePath();
-  }
 
   function drawLayer(canvas, layerData, viewDimensions) {
     var context = canvas.getContext('2d');
@@ -29,16 +14,18 @@ jack2d('CanvasViewport', ['helper', 'obj', 'Requires'], function(Helper, Obj, Re
     }
   }
 
-  return Obj.mixin(['Viewport', 'canvas', {
+  return Obj.mixin(['Viewport', 'CanvasElement', 'ViewportFocus', {
     elPromise: function(elPromise, elementOrSelector) {
-      this.onFrame(function() {
-        this.draw();
-      }, this.getType());
+      this.onFrame(this.updateViewport, this.getType());
       return elPromise.call(this, elementOrSelector);
     },
     el: function(el, elementOrSelector) {
       this.elPromise(elementOrSelector);
       return this;
+    },
+    updateViewport: function() {
+      this.checkFocusRegion();
+      this.draw();
     },
     clear: function(width, height) {
       var canvas = this.element,
@@ -46,18 +33,18 @@ jack2d('CanvasViewport', ['helper', 'obj', 'Requires'], function(Helper, Obj, Re
 
       if(canvas) {
         dims = this.viewDimensions;
-        clearContext(canvas.getContext('2d'), width || dims.width, height || dims.height);
+        Canvas.clearContext(canvas.getContext('2d'), width || dims.width, height || dims.height);
       }
       return this;
     },
     drawBorder: function(width, height) {
       var dims = this.viewDimensions;
-      drawBorder(this.element.getContext('2d'), width || dims.width, height || dims.height);
+      Canvas.drawBorder(this.element.getContext('2d'), width || dims.width, height || dims.height);
       return this;
     },
     drawBackground: function(width, height, color) {
       var dims = this.viewDimensions;
-      drawBackground(this.element.getContext('2d'), width || dims.width, height || dims.height, color);
+      Canvas.drawBackground(this.element.getContext('2d'), width || dims.width, height || dims.height, color);
       return this;
     },
     drawLayer: Requires(['element', 'layers'], function(index) {
@@ -71,14 +58,27 @@ jack2d('CanvasViewport', ['helper', 'obj', 'Requires'], function(Helper, Obj, Re
       var dims = this.viewDimensions;
       var numLayers = layers.length, i;
 
-      clearContext(context, dims.width, dims.height);
+      Canvas.clearContext(context, dims.width, dims.height);
+
       for(i = 0; i < numLayers; i++) {
         drawLayer(canvas, layers[i], dims);
       }
 
       if(this.hasBorder) {
-        drawBorder(context, dims.width, dims.height);
+        Canvas.drawBorder(context, dims.width, dims.height);
       }
+
+      if(this.drawFocusRegion) {
+        Canvas.drawBorder(
+          context,
+          this.focusRegion.right - this.focusRegion.left,
+          this.focusRegion.bottom - this.focusRegion.top,
+          this.focusRegion.left,
+          this.focusRegion.top,
+          'red'
+        );
+      }
+
       return this;
     })
   }], true);
