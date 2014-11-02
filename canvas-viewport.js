@@ -52,16 +52,23 @@ function(Helper, Obj, Rect, Canvas, Requires) {
       return this;
     }),
     draw: Requires(['element', 'layers'], function() {
+      var layer, i;
       var layers = this.layers;
       var canvas = this.element;
       var context = canvas.getContext('2d');
       var dims = this.viewDimensions;
-      var numLayers = layers.length, i;
+      var delta = this.viewDelta;
+      var numLayers = layers.length;
 
-      Canvas.clearContext(context, dims.width, dims.height);
+      Canvas.clearContext(context, delta.width, delta.height);
 
       for(i = 0; i < numLayers; i++) {
-        drawLayer(canvas, layers[i], dims);
+        layer = layers[i];
+        if(layer.renderMode === 1) {
+          drawLayer(canvas, layer, delta);
+        } else {
+          drawLayer(canvas, layer, dims);
+        }
       }
 
       if(this.hasBorder) {
