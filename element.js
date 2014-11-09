@@ -3,7 +3,7 @@
  */
 
 
-jack2d('Element', ['helper', 'obj', 'doc', 'proxy2', 'input'], function(Helper, Obj, Doc, Proxy, Input) {
+jack2d('Element', ['helper', 'obj', 'doc', 'input'], function(Helper, Obj, Doc, Input) {
   'use strict';
 
   return Obj.mixin(['chronoObject', {
