@@ -22,10 +22,10 @@ gulp.task('build', function() {
       'bower_components/kilo-scheduler/dist/kilo-scheduler.js',
       'src/**/*.js'
     ])
-    .pipe(concat('kilo-flow.js'))
+    .pipe(concat('kilo-ui.js'))
     .pipe(gulp.dest('dist'))
     .pipe(uglify())
-    .pipe(rename('kilo-flow.min.js'))
+    .pipe(rename('kilo-ui.min.js'))
     .pipe(gulp.dest('dist'));
 });
 
