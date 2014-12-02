@@ -2,7 +2,7 @@
  * Created by Shaun on 7/4/14.
  */
 
-jack2d('LiveElementFactory', ['helper', 'obj', 'LiveElement'], function(Helper, Obj, LiveElement) {
+kilo('LiveElementFactory', ['helper', 'obj', 'LiveElement'], function(Helper, Obj, LiveElement) {
   'use strict';
 
   return function(elementOrSelector, mixins) {

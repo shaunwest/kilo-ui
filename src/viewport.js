@@ -2,7 +2,7 @@
  * Created by Shaun on 5/25/14.
  */
 
-jack2d('Viewport', function() {
+kilo('Viewport', function() {
   'use strict';
 
   return function() {

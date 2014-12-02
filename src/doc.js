@@ -2,7 +2,7 @@
  * Created by Shaun on 6/22/14.
  */
 
-jack2d('doc', ['helper'], function(helper) {
+kilo('doc', ['helper'], function(helper) {
   'use strict';
 
   function getElement(elementOrSelector) {
@@ -15,7 +15,7 @@ jack2d('doc', ['helper'], function(helper) {
           if(element) {
             resolve(element);
           } else {
-            reject('Jack2d: element not found at \'' + elementOrSelector + '\'');
+            reject('kilo: element not found at \'' + elementOrSelector + '\'');
           }
         });
       }
@@ -25,7 +25,7 @@ jack2d('doc', ['helper'], function(helper) {
   function el(elementOrSelector) {
     var results = (documentReady()) ?
       document.querySelectorAll(elementOrSelector) :
-      helper.error('Jack2d: Can\'t select elements because document is not ready');
+      helper.error('kilo: Can\'t select elements because document is not ready');
 
     return (results.length > 1) ? results : results[0];
   }

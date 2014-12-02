@@ -3,7 +3,7 @@
  */
 
 
-jack2d('Element', ['helper', 'obj', 'doc', 'input'], function(Helper, Obj, Doc, Input) {
+kilo('Element', ['helper', 'obj', 'doc', 'input'], function(Helper, Obj, Doc, Input) {
   'use strict';
 
   return Obj.mixin(['chronoObject', {
@@ -61,7 +61,7 @@ jack2d('Element', ['helper', 'obj', 'doc', 'input'], function(Helper, Obj, Doc, 
       element = this.element;
       contextOnInput = (onInput) ?
         onInput.bind(this) :
-        Helper.error('Jack2d: Element::onInteract requires at least one callback.');
+        Helper.error('kilo: Element::onInteract requires at least one callback.');
       contextOnInputEnd = (onInputEnd) ? onInputEnd.bind(this) : null;
 
       this.onFrame(function() {

@@ -2,7 +2,7 @@
  * Created by Shaun on 7/19/14.
  */
 
-jack2d('hotspot', ['obj', 'input'], function(Obj, Input) {
+kilo('hotspot', ['obj', 'input'], function(Obj, Input) {
   'use strict';
 
   return Obj.mixin(['chronoObject', 'rect', {

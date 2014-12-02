@@ -2,7 +2,7 @@
  * Created by Shaun on 8/29/14.
  */
 
-jack2d('CanvasViewport', ['helper', 'obj', 'rect', 'Canvas', 'Requires'],
+kilo('CanvasViewport', ['helper', 'obj', 'rect', 'Canvas', 'Requires'],
 function(Helper, Obj, Rect, Canvas, Requires) {
   'use strict';
 

@@ -2,7 +2,7 @@
  * Created by Shaun on 6/17/14.
  */
 
-jack2d('debug', ['helper', 'obj', 'chronoObject', 'Element'],
+kilo('debug', ['helper', 'obj', 'chronoObject', 'Element'],
 function(helper, obj, chronoObject, Element){
   'use strict';
 
